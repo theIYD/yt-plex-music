@@ -2,7 +2,7 @@
 const program = require("commander");
 const { prompt } = require("inquirer");
 
-const { getMp4, convertMp3ToMp4 } = require("../index");
+const { getMp4, convertMp3ToMp4, doSSH } = require("../index");
 
 const questions = [
   {
@@ -40,6 +40,17 @@ program
           let result = await convertMp3ToMp4(resultantPaths);
           if (result.done) {
             console.log("\nConversion done. File saved.");
+            console.log("\nSSH into the server ....");
+            const done = await doSSH({
+              folderPath: result.folderPath,
+              folderName: answers.foldername,
+              filePath: result.filePath
+            });
+
+            if (done.status) {
+              console.log("\nTransfer done.");
+              process.exit(0);
+            }
           }
         }
       }
