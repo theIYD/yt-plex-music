@@ -6,7 +6,6 @@
   "bin": "./src/commands.js",
   "preferGlobal": true,
   "dependencies": {
-    "@ffmpeg-installer/ffmpeg": "^1.0.20",
     "commander": "^4.0.1",
     "dotenv": "^8.2.0",
     "fluent-ffmpeg": "^2.1.2",
