@@ -6,6 +6,7 @@ const ssh = require("node-ssh");
 const rimraf = require("rimraf");
 const dotenv = require("dotenv").config();
 
+// Get the mp4 file from Youtube
 const getMp4 = obj => {
   return new Promise((resolve, reject) => {
     let folderPath = path.join(__dirname, `/temp/${obj.foldername}/`);
@@ -40,7 +41,8 @@ const getMp4 = obj => {
   });
 };
 
-const convertMp3ToMp4 = obj => {
+// Convert to mp3 using ffmpeg
+const convertToMp3 = obj => {
   return new Promise((resolve, reject) => {
     // Use ffmpeg for conversion
     ffmpeg(obj.filePath)
@@ -68,6 +70,7 @@ const convertMp3ToMp4 = obj => {
   });
 };
 
+// SSH into the server and place the mp3 file
 const doSSH = paths => {
   return new Promise(async (resolve, reject) => {
     let sshInstance = new ssh();
@@ -80,28 +83,28 @@ const doSSH = paths => {
       });
 
       let directoryCreated = await sshInstance.mkdir(
-        `/home18/${process.env.USERNAME}/media/Music/${paths.folderName}`
+        `${process.env.MUSIC_SERVER_DIR}/${paths.folderName}`
       );
 
       let status = await sshInstance.putDirectory(
         `${paths.folderPath}`,
-        `/home18/${process.env.USERNAME}/media/Music/${paths.folderName}/`
+        `${process.env.MUSIC_SERVER_DIR}/${paths.folderName}/`
       );
 
       if (status) {
         rimraf(paths.folderPath, function() {
-          console.log("done");
           resolve({ status });
         });
       }
     } catch (err) {
       console.error(err);
+      reject(err);
     }
   });
 };
 
 module.exports = {
   getMp4,
-  convertMp3ToMp4,
+  convertToMp3,
   doSSH
 };

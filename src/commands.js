@@ -2,7 +2,7 @@
 const program = require("commander");
 const { prompt } = require("inquirer");
 
-const { getMp4, convertMp3ToMp4, doSSH } = require("../index");
+const { getMp4, convertToMp3, doSSH } = require("../index");
 
 const questions = [
   {
@@ -36,8 +36,8 @@ program
       if (answers) {
         let resultantPaths = await getMp4(answers);
         if (resultantPaths) {
-          console.log("\nConverting.....");
-          let result = await convertMp3ToMp4(resultantPaths);
+          console.log("\nConverting into MP3 format .....");
+          let result = await convertToMp3(resultantPaths);
           if (result.done) {
             console.log("\nConversion done. File saved.");
             console.log("\nSSH into the server ....");
