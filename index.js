@@ -19,7 +19,10 @@ const getMp4 = obj => {
     let filePath = folderPath + filename;
 
     // The stream object
-    let audioStreamObject = ytdl(obj.url, { filter: "audioonly" });
+    let audioStreamObject = ytdl(obj.url, {
+      quality: "highestaudio",
+      filter: "audioonly"
+    });
 
     // Listen for progress
     audioStreamObject.on("progress", (chunkLength, downloaded, total) => {
