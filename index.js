@@ -9,7 +9,7 @@ const dotenv = require("dotenv").config();
 // Get the mp4 file from Youtube
 const getMp4 = obj => {
   return new Promise((resolve, reject) => {
-    let folderPath = path.join(__dirname, `/temp/${obj.foldername}/`);
+    let folderPath = path.join(__dirname, `/${obj.foldername}/`);
     if (!fs.existsSync(folderPath)) {
       fs.mkdirSync(folderPath);
     }
