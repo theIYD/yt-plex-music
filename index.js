@@ -50,6 +50,7 @@ const convertToMp3 = obj => {
     // Use ffmpeg for conversion
     ffmpeg(obj.filePath)
       .withAudioCodec("libmp3lame")
+      .withAudioBitrate(320)
       .toFormat("mp3")
       .on("progress", progress => {
         process.stdout.clearLine();
